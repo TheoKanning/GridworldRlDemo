@@ -12,7 +12,12 @@ class Runner:
 	       num_iterations=10000,
 	       log_every_n=1,
 	       max_steps_per_episode=100):
-
+    """Args:
+         agent: The agent to train
+         num_iterations: Total number of training iterations
+         log_every_n: Log training progress every n iterations
+         max_steps_per_episode: Stop an episode after this many iterations
+    """
     self._agent = agent
     self._num_iterations=num_iterations
     self._log_every_n=log_every_n
