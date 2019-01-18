@@ -9,38 +9,50 @@ class Runner:
 
   def __init__(self,
 	       agent,
-	       num_iterations=10000,
+               environment,
+	       num_iterations=100,
 	       log_every_n=1,
 	       max_steps_per_episode=100):
     """Args:
          agent: The agent to train
+         environment: Environment in which to train the agent
          num_iterations: Total number of training iterations
          log_every_n: Log training progress every n iterations
          max_steps_per_episode: Stop an episode after this many iterations
     """
     self._agent = agent
+    self._environment = environment
+    self._iteration = 0
     self._num_iterations=num_iterations
     self._log_every_n=log_every_n
     self._max_steps_per_episode=max_steps_per_episode
 
   def run_experiment(self):
-    pass
+    while self._iteration < self._num_iterations:
+      self._run_one_episode()
 
   def _run_one_episode(self):
     """Runs an entire episode to termination. Stops when agent reaches terminal
        state or exceeds step limit
     """
-    pass
+    action = self._initialize_episode()
+    terminated = False
+    while True:
+      self._iteration += 1
+      (reward, state, terminated) = self._environment.step(action)
+      self._environment.log()
+      print "Reward:{} Terminated:{}".format(reward, terminated)
 
-  def _run_one_step(self):
-    """Runs a single game step by getting the agent's action, passing it to the
-       environemt, then updating the agent with the new reward and observation
-    """ 
-    pass
+      if terminated: break
+
+      action = self._agent.step(reward, state)
 
   def _initialize_episode(self):
-    """Starts an episode by resetting the environment and updating the agent""" 
-    pass
+    """Starts an episode by resetting the environment. Returns agent's first
+      action """
+    state = self._environment.reset()
+    self._environment.log()
+    return self._agent.begin_episode(state)
 
   def _end_episode(self):
     """Notifies the agent that the episode has ended"""

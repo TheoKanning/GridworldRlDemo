@@ -1,10 +1,10 @@
+import agent
 import environment
+import runner
 
 if __name__ == '__main__':
+  agent = agent.RlAgent(4, 9)
   environment = environment.Gridworld()
-  environment.log()
+  runner = runner.Runner(agent, environment)
 
-  while(True):
-    action = input("Enter an action (0-3)")
-    environment.step(action)
-    environment.log()
+  runner.run_experiment()

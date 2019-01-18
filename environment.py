@@ -46,13 +46,15 @@ class Gridworld:
     (self._agentX, self._agentY) = self._get_agent_destination(action)
     reward = self._get_reward(self._agentX, self._agentY) + self._step_reward
     terminal = self._environment[self._agentY][self._agentX] == GOAL
-    state = self._agentY * self._width + self._agentX
+    state = self._get_agent_state()
  
     return (reward, state, terminal)
 
   def reset(self):
     """Completely resets the Gridworld"""
-    pass
+    self._agentX = 0
+    self._agentY = 2
+    return self._get_agent_state()
 
   def log(self):
     """Logs the current Gridworld state"""
@@ -68,6 +70,9 @@ class Gridworld:
           rowString += self._environment[row][cell]
         rowString += "|"
       print rowString
+
+  def _get_agent_state(self):
+    return self._agentY * self._width + self._agentX
 
   def _get_agent_destination(self, action):
     """Takes an action and determines the agent's new position"""
