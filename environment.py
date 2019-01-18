@@ -38,11 +38,17 @@ class Gridworld:
 
   def step(self, action):
     """Performs the given action and returns a reward, updated state, and a 
-       boolean indicating if the state is terminal
+       boolean indicating if the state is terminal. State is return as a single
+       integer corresponding to the agent's current cell number, starting in
+       the top left
+
     """
     (self._agentX, self._agentY) = self._get_agent_destination(action)
     reward = self._get_reward(self._agentX, self._agentY) + self._step_reward
-    print reward
+    terminal = self._environment[self._agentY][self._agentX] == GOAL
+    state = self._agentY * self._width + self._agentX
+ 
+    return (reward, state, terminal)
 
   def reset(self):
     """Completely resets the Gridworld"""
