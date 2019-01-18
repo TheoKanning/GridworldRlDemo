@@ -16,18 +16,18 @@ ACTIONS=[
 class Gridworld:
 
   def __init__(self,
-               step_cost=0.25,
-               obstacle_cost=2,
-               reward=10):
+               step_reward=-0.25,
+               obstacle_reward=-2,
+               goal_reward=10):
     """Args:
-         step_cost: The cost of taking a single step in the Gridworld
-         obstacle_cost: The cost of running into an obstacle
-         reward: The final reward for completing the world
+         step_reward: The reward for taking a single step in the Gridworld
+         obstacle_reward: The reward for running into an obstacle
+         goal_reward: The final reward for completing the world
     """
 
-    self._step_cost = step_cost
-    self._obstacle_cost = obstacle_cost
-    self._reward = reward
+    self._step_reward = step_reward
+    self._obstacle_reward = obstacle_reward
+    self._goal_reward = goal_reward
     self._height = 3
     self._width = 3
     self._agentX = 0
@@ -41,6 +41,8 @@ class Gridworld:
        boolean indicating if the state is terminal
     """
     (self._agentX, self._agentY) = self._get_agent_destination(action)
+    reward = self._get_reward(self._agentX, self._agentY) + self._step_reward
+    print reward
 
   def reset(self):
     """Completely resets the Gridworld"""
@@ -72,3 +74,16 @@ class Gridworld:
     newY = clamp(self._agentY + delta[1], 0, self._height - 1)
 
     return (newX, newY)
+
+  def _get_reward(self, x, y):
+    """Returns the reward at the given position"""
+    cell = self._environment[y][x]
+    if cell == OPEN:
+      return 0
+    elif cell == OBSTACLE:
+      return self._obstacle_reward
+    elif cell == GOAL:
+      return self._goal_reward
+    else:
+      print "Unknown reward for cell = {} at ({},{})".format(cell, x, y)
+      return 0
