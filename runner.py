@@ -36,14 +36,19 @@ class Runner:
        state or exceeds step limit
     """
     action = self._initialize_episode()
-    terminated = False
+    episode_reward = 0
+
     while True:
       self._iteration += 1
       (reward, state, terminated) = self._environment.step(action)
+      episode_reward += reward
       self._environment.log()
       print "Reward:{} Terminated:{}".format(reward, terminated)
 
-      if terminated: break
+      if terminated:
+        self._agent.end_episode(reward)
+        print "Episode complete, total score={}".format(episode_reward)
+        break
 
       action = self._agent.step(reward, state)
 
