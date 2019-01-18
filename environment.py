@@ -6,7 +6,12 @@ OPEN=' '
 OBSTACLE='#'
 GOAL='G'
 
-ACTIONS=['UP', 'DOWN', 'LEFT', 'RIGHT']
+ACTIONS=[
+          (0, -1), # up
+          (0, 1),  # down
+          (-1, 0), # left
+          (1, 0)   # right
+        ]
 
 class Gridworld:
 
@@ -35,7 +40,7 @@ class Gridworld:
     """Performs the given action and returns a reward, updated state, and a 
        boolean indicating if the state is terminal
     """
-    pass
+    (self._agentX, self._agentY) = self._get_agent_destination(action)
 
   def reset(self):
     """Completely resets the Gridworld"""
@@ -55,3 +60,15 @@ class Gridworld:
           rowString += self._environment[row][cell]
         rowString += "|"
       print rowString
+
+  def _get_agent_destination(self, action):
+    """Takes an action and determines the agent's new position"""
+
+    def clamp(number, lower, upper):
+      return max(min(number, upper), lower)
+
+    delta = ACTIONS[action]
+    newX = clamp(self._agentX + delta[0], 0, self._width - 1)
+    newY = clamp(self._agentY + delta[1], 0, self._height - 1)
+
+    return (newX, newY)
