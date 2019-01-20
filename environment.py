@@ -16,8 +16,8 @@ ACTIONS=[
 class Gridworld:
 
   def __init__(self,
-               step_reward=-0.25,
-               obstacle_reward=-2,
+               step_reward=-1,
+               obstacle_reward=-3,
                goal_reward=10):
     """Args:
          step_reward: The reward for taking a single step in the Gridworld
@@ -59,17 +59,17 @@ class Gridworld:
   def log(self):
     """Logs the current Gridworld state"""
     rowDivider = " _"*self._width
-    print rowDivider
+    print(rowDivider)
 
     for row in range(self._height): 
       rowString = "|"
       for cell in range(self._width):
         if row == self._agentY and cell == self._agentX:
-	  rowString += AGENT
+          rowString += AGENT
         else:
           rowString += self._environment[row][cell]
         rowString += "|"
-      print rowString
+      print(rowString)
 
   def _get_agent_state(self):
     return self._agentY * self._width + self._agentX
@@ -96,5 +96,5 @@ class Gridworld:
     elif cell == GOAL:
       return self._goal_reward
     else:
-      print "Unknown reward for cell = {} at ({},{})".format(cell, x, y)
+      print("Unknown reward for cell = {} at ({},{})".format(cell, x, y))
       return 0

@@ -14,7 +14,7 @@ class ManualAgent:
     
   def _choose_action(self, state):
     """Prompts the user to pick an action"""
-    return input("Choose action (0-{})".format(self._num_actions - 1))
+    return int(input("Choose action (0-{})".format(self._num_actions - 1)))
 
   def begin_episode(self, state):
     """Begins a new training episode"""

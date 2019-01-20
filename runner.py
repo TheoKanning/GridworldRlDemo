@@ -3,8 +3,6 @@ and environment by passing actions, states, and rewards back and for for a set
 number of iterations.
 """
 
-import agent
-
 class Runner:
 
   def __init__(self,
@@ -43,11 +41,11 @@ class Runner:
       (reward, state, terminated) = self._environment.step(action)
       episode_reward += reward
       self._environment.log()
-      print "Reward:{} Terminated:{}".format(reward, terminated)
+      print("Reward:{} Terminated:{}".format(reward, terminated))
 
       if terminated:
         self._agent.end_episode(reward)
-        print "Episode complete, total score={}".format(episode_reward)
+        print("Episode complete, total score={}".format(episode_reward))
         break
 
       action = self._agent.step(reward, state)

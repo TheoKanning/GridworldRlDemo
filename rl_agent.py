@@ -66,7 +66,7 @@ class RlAgent:
     self._last_state = state
     action = self._choose_action(state)
     self._last_action = action
-    print self._q_function
+    print(self._q_function)
     return action
 
   def _update_q_function(self, new_state, reward):
