@@ -12,7 +12,7 @@ class RlAgent:
            learning_rate=0.1,
            epsilon=0.2, 
            epsilon_decay=100,
-           discount_factor=0.9):
+           discount_factor=1):
     """
     Args:
       num_actions: The number of available actions
@@ -77,3 +77,4 @@ class RlAgent:
     learned_value = reward + self._discount_factor * np.max(self._q_function[new_state])
     new_q_value = (1 - self._learning_rate) * old_q_value + self._learning_rate * learned_value
     self._q_function[self._last_state][self._last_action] = new_q_value
+
