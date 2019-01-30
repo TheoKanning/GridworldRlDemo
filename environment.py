@@ -53,7 +53,7 @@ class Gridworld:
   def reset(self):
     """Completely resets the Gridworld"""
     self._agentX = 0
-    self._agentY = 2
+    self._agentY = 0
     return self._get_agent_state()
 
   def log(self):
