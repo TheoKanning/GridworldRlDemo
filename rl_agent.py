@@ -9,25 +9,19 @@ class RlAgent:
   def __init__(self,
            num_actions,
            num_states,
-           learning_rate=0.1,
-           epsilon=0.2, 
-           epsilon_decay=100,
-           discount_factor=1):
+           learning_rate=1,
+           epsilon=0.5):
     """
     Args:
       num_actions: The number of available actions
       num_states: The number of possible game states
       learning_rate: The rate at which the Q function is updated with new rewards
-      epsilon: Final epsilon value while training
-      epsilon_decay: Epsilon will decay by a factor of ten every epsilon_decay iterations
-      discout_factor: Discount factor for calculating return based on future rewards
+      epsilon: Chance of taking a random action
     """
     self._num_actions = num_actions
     self._num_states = num_states
     self._learning_rate = learning_rate
     self._epsilon = epsilon
-    self._epsilon_decay = epsilon_decay
-    self._discount_factor = discount_factor
     self._q_function = np.zeros((num_states, num_actions))
     self._last_action = 0
     self._last_state = 0
@@ -36,7 +30,7 @@ class RlAgent:
     """Chooses the next action using an epsilon-greedy scheme. If a randomly
     selected number is greater than epsilon, choose the action with the highest
     expected return. Otherwise, pick a random action"""
-    if random.random() > 0.5: # todo add epsilon decay
+    if random.random() > self._epsilon:
       # pick the action with the highest expected return for the given state
       return np.argmax(self._q_function[state])
     else:
@@ -74,7 +68,7 @@ class RlAgent:
     is a combination of the old value and the new learned value based on the reward
     for the previous action and the estimated return from the new state"""
     old_q_value = self._q_function[self._last_state][self._last_action]
-    learned_value = reward + self._discount_factor * np.max(self._q_function[new_state])
+    learned_value = reward + np.max(self._q_function[new_state])
     new_q_value = (1 - self._learning_rate) * old_q_value + self._learning_rate * learned_value
     self._q_function[self._last_state][self._last_action] = new_q_value
 
